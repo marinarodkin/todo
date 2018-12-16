@@ -17,5 +17,12 @@
  .task{
    margin-left: 10px;
      margin-bottom: 10px;
+     display: flex;
+     justify-content: space-between;
  }
-
+ .task-button{
+     margin-right: 5px;
+     border: none;
+     background-color: white;
+     cursor: pointer;
+ }
