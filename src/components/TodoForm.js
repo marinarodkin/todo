@@ -6,8 +6,8 @@ class TodoForm extends Component {
   render() {
     return (
       <div className="form">
-        <form>
-            <input type = "text"/>
+        <form onSubmit={this.props.onSubmitForm} >
+            <input type = "text" value = {this.props.text} onChange = {this.props.onChange}/>
         </form>
 
       </div>

@@ -11,7 +11,7 @@ class TodoList extends Component {
         {tasks.map((item, index) =>
             (<div className="task">
                <label htmlFor = {index}>
-                <input type = 'checkbox' id = {index} onClick = {this.props.onClick} checked = {item.status}/>
+                <input type = 'checkbox' id = {index}  checked = {item.done}/>
                 {item.content}
                 </label>
             </div>) )
