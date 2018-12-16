@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import TodoForm from './comonents.ToDoForm';
-import TodoList from './comonents.ToDoList';
+import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
 import './App.css';
 
 class App extends Component {
@@ -12,12 +12,16 @@ class App extends Component {
            {content: 'перевести статью', done: 'true'},
            {content: 'домашнее задание немецкий', done: 'true'}
   ] }
+  onClick() {
+
+  }
 
   render() {
+    console.log('state', this.state);
     return (
       <div className="App">
         <TodoForm/>
-        <TodoList/>
+        <TodoList tasks = {this.state.tasks} onClick = {this.onClick}/>
       </div>
     );
   }
