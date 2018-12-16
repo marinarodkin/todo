@@ -7,18 +7,15 @@ import './App.css';
 class App extends Component {
 
   state = {
-    tasks: [{content: 'Повторить теорию Redux', done: false},
-           {content: 'Написать Todo приложение', done: false},
-           {content: 'Передалать компонент автокомплит', done: false},
-           {content: 'перевести статью', done: true},
-           {content: 'домашнее задание немецкий', done: true}
-  ],
-  text: ''};
+    tasks: [{content: 'Пример задания 1', done: false},
+           {content: 'Пример задания 2', done: false},
+           {content: 'Пример задания 3', done: true}
+     ],
+      text: ''};
 
   onChange = ({ target: { value } }) => {
-
-    this.setState(prevState => ({
-    text: value}))
+    this.setState({
+    text: value})
   }
 
     onClick = ({ target: { id } }) => {
@@ -35,14 +32,12 @@ class App extends Component {
       this.setState(prevState => ({
           tasks: [newTask, ...prevState.tasks],
           text: ''
-
       }));
   }
 
   deleteTask = (e) => {
       e.preventDefault();
       const id = e.target.id;
-
       const updatedTasks = this.state.tasks;
       updatedTasks.splice(id, 1);
       this.setState({tasks: updatedTasks})
@@ -52,11 +47,9 @@ class App extends Component {
     editTask = (e) => {
         e.preventDefault();
         const target = e.target;
-        console.log('target', target)
         const id = target.id.slice(1);
         console.log('id', id)
         const clickedTask = this.state.tasks[id];
-        console.log('clickedTask', clickedTask)
         const updatedContent = clickedTask.content
         const updatedTasks = this.state.tasks;
         updatedTasks.splice(id, 1);
@@ -64,10 +57,9 @@ class App extends Component {
     }
 
   render() {
-    console.log('state', this.state);
-    return (
+     return (
       <div className="App">
-        <TodoForm onSubmitForm = {this.onSubmitForm} onChange = {this.onChange}/>
+        <TodoForm onSubmitForm = {this.onSubmitForm} onChange = {this.onChange} text = {this.state.text}/>
         <TodoList tasks = {this.state.tasks} deleteTask = {this.deleteTask} editTask = {this.editTask} onClick = {this.onClick}/>
       </div>
     );

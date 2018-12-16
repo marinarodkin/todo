@@ -10,7 +10,7 @@
 }
 
 .form{
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 15px;
  }
 
@@ -25,4 +25,12 @@
      border: none;
      background-color: white;
      cursor: pointer;
+ }
+
+ .input-task{
+     border: none;
+     outline: none;
+     width: 80%;
+     font-style: italic;
+     border-bottom: 1px solid blue;
  }

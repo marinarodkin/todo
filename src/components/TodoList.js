@@ -4,14 +4,14 @@ import '../App.css';
 class TodoList extends Component {
   render() {
     const tasks = this.props.tasks;
-    console.log('props.taskk', tasks)
+
     return (
       <div className="tasks">
         <form>
         {tasks.map((item, index) =>
             (<div className="task">
                <label htmlFor = {index}>
-                <input type = 'checkbox' id = {index}  checked = {item.done} onClick = {this.props.onClick}/>
+                <input type = 'checkbox' id = {index}  checked = {item.done} onChange = {this.props.onClick}/>
                 {item.content}
                 </label>
                 <div>
