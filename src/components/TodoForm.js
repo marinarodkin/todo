@@ -5,7 +5,7 @@ import '../App.css';
 class TodoForm extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="form">
         <form>
             <input type = "text"/>
         </form>
