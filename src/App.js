@@ -16,14 +16,22 @@ class App extends Component {
   text: ''};
 
   onChange = ({ target: { value } }) => {
-    console.log("on click input")
+
     this.setState(prevState => ({
     text: value}))
   }
 
+    onClick = ({ target: { id } }) => {
+          const clickedTask = this.state.tasks[id];
+          const updatedTask = {content: clickedTask.content, done: !clickedTask.done};
+          const updatedTasks = this.state.tasks;
+          updatedTasks.splice(id, 1, updatedTask);
+          this.setState({tasks: updatedTasks})
+    }
+
     onSubmitForm = (e) => {
       e.preventDefault();
-      const newTask = {content: this.state.text, done: 'false'};
+      const newTask = {content: this.state.text, done: false};
       this.setState(prevState => ({
           tasks: [newTask, ...prevState.tasks],
           text: ''
