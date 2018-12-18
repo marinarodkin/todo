@@ -8,7 +8,7 @@ class TodoForm extends Component {
     return (
       <div className="form">
         <form onSubmit={this.props.onSubmitForm} >
-            <input className = 'input-task' type = "text" value = {this.props.text} onChange = {this.props.onChange} placeholder = 'Добавьте новое задание'/>
+            <input className = 'input-task' type = "text" value = {this.props.text} onChange = {this.props.onChange} placeholder = 'Добавьте новое задание' autoFocus = {true}/>
         </form>
 
       </div>

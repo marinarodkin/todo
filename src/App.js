@@ -7,9 +7,9 @@ import './App.css';
 class App extends Component {
 
   state = {
-    tasks: [{content: 'Пример задания 1', done: false},
-           {content: 'Пример задания 2', done: false},
-           {content: 'Пример задания 3', done: true}
+    tasks: [{content: 'Пример задания 1', done: false, index: 1},
+           {content: 'Пример задания 2', done: false, index: 2},
+           {content: 'Пример задания 3', done: true, index: 3}
      ],
       text: ''};
 
@@ -20,7 +20,7 @@ class App extends Component {
 
     onClick = ({ target: { id } }) => {
           const clickedTask = this.state.tasks[id];
-          const updatedTask = {content: clickedTask.content, done: !clickedTask.done};
+          const updatedTask = {content: clickedTask.content, done: !clickedTask.done, index: clickedTask.index};
           const updatedTasks = this.state.tasks;
           updatedTasks.splice(id, 1, updatedTask);
           this.setState({tasks: updatedTasks})
@@ -28,18 +28,22 @@ class App extends Component {
 
     onSubmitForm = (e) => {
       e.preventDefault();
-      const newTask = {content: this.state.text, done: false};
+      const firstTask =  this.state.tasks[0];
+      const index = firstTask ? firstTask.index + 1 : 1;
+      const newTask = {content: this.state.text, done: false, index: index};
       this.setState(prevState => ({
-          tasks: [newTask, ...prevState.tasks],
+          tasks: [...prevState.tasks, newTask ],
           text: ''
       }));
   }
 
   deleteTask = (e) => {
       e.preventDefault();
-      const id = e.target.id;
-      const updatedTasks = this.state.tasks;
-      updatedTasks.splice(id, 1);
+      const target = e.target;
+      const id = target.id.slice(1)*1;
+      console.log('id', id);
+      const toupdateTasks = this.state.tasks;
+      const updatedTasks = toupdateTasks.filter(item => item.index !== id);
       this.setState({tasks: updatedTasks})
 
   }
@@ -47,18 +51,24 @@ class App extends Component {
     editTask = (e) => {
         e.preventDefault();
         const target = e.target;
-        const id = target.id.slice(1);
+        const id = target.id.slice(1) * 1;
         console.log('id', id)
-        const clickedTask = this.state.tasks[id];
-        const updatedContent = clickedTask.content
-        const updatedTasks = this.state.tasks;
-        updatedTasks.splice(id, 1);
+        const tasks = this.state.tasks;
+        const clickedTasks = tasks.filter(item => item.index === id);
+        const clickedTask = clickedTasks[0]
+        console.log(clickedTask);
+        const updatedContent = clickedTask.content;
+        const toupdateTasks = this.state.tasks;
+        const updatedTasks = toupdateTasks.filter(item => item.index !== id);
         this.setState({tasks: updatedTasks, text: updatedContent })
     }
 
   render() {
      return (
       <div className="App">
+          <div className= 'header'>
+              <p className='header-title'>To do list</p>
+          </div>
         <TodoForm onSubmitForm = {this.onSubmitForm} onChange = {this.onChange} text = {this.state.text}/>
         <TodoList tasks = {this.state.tasks} deleteTask = {this.deleteTask} editTask = {this.editTask} onClick = {this.onClick}/>
       </div>
