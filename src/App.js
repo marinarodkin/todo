@@ -22,7 +22,8 @@ class App extends Component {
           const clickedTask = this.state.tasks[id];
           const updatedTask = {content: clickedTask.content, done: !clickedTask.done, index: clickedTask.index};
           const updatedTasks = this.state.tasks;
-          updatedTasks.splice(id, 1, updatedTask);
+          const taskNumber = updatedTasks.indexOf(clickedTask);
+          updatedTasks.splice(taskNumber, 1, updatedTask);
           this.setState({tasks: updatedTasks})
     }
 
@@ -41,7 +42,6 @@ class App extends Component {
       e.preventDefault();
       const target = e.target;
       const id = target.id.slice(1)*1;
-      console.log('id', id);
       const toupdateTasks = this.state.tasks;
       const updatedTasks = toupdateTasks.filter(item => item.index !== id);
       this.setState({tasks: updatedTasks})
@@ -52,11 +52,9 @@ class App extends Component {
         e.preventDefault();
         const target = e.target;
         const id = target.id.slice(1) * 1;
-        console.log('id', id)
         const tasks = this.state.tasks;
         const clickedTasks = tasks.filter(item => item.index === id);
         const clickedTask = clickedTasks[0]
-        console.log(clickedTask);
         const updatedContent = clickedTask.content;
         const toupdateTasks = this.state.tasks;
         const updatedTasks = toupdateTasks.filter(item => item.index !== id);
