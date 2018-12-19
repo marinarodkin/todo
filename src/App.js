@@ -20,6 +20,7 @@ class App extends Component {
         })
     }
 
+
     onClick = ({target: {id}}) => {
         const clickedTask = this.state.tasks[id];
         const updatedTask = {content: clickedTask.content, done: !clickedTask.done, index: clickedTask.index};
@@ -44,10 +45,7 @@ class App extends Component {
         e.preventDefault();
         const target = e.target;
         const id = target.id.slice(1) * 1;
-        const toupdateTasks = this.state.tasks;
-        const updatedTasks = toupdateTasks.filter(item => item.index !== id);
-        this.setState({tasks: updatedTasks})
-
+        this.setState(prevState => ({ tasks: prevState.tasks.filter(item => item.index !== id) }))
     }
 
     editTask = (e) => {
@@ -61,6 +59,7 @@ class App extends Component {
         const toupdateTasks = this.state.tasks;
         const updatedTasks = toupdateTasks.filter(item => item.index !== id);
         this.setState({tasks: updatedTasks, text: updatedContent})
+
     }
 
     render() {
