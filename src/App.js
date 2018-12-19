@@ -3,7 +3,7 @@ import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import './App.css';
 import uuidv4 from 'uuid/v4';
-import ReactDOM from 'react-dom';
+
 
 
 class App extends Component {
@@ -50,13 +50,13 @@ class App extends Component {
 
     deleteTask = (e) => {
         e.preventDefault();
-        const id = e.target.parentNode.parentNode.id;
+        const id = e.target.parentNode.previousSibling.firstChild.id;
         this.setState(prevState => ({ tasks: prevState.tasks.filter(item => item.index != id) }))
     }
 
     editTask = (e) => {
         e.preventDefault();
-        const id = e.target.parentNode.parentNode.id;
+        const id = e.target.parentNode.previousSibling.firstChild.id;
         const tasksCopy = [...this.state.tasks];
         const clickedTask = tasksCopy.find(item => item.index == id);
         const updatedContent = clickedTask.content;

@@ -3,6 +3,9 @@ import '../App.css';
 
 
 class TodoList extends Component {
+    labelStyle(item) {
+       return item.done ? "task-label_through" : 'task-label';
+    }
   render() {
     const tasksCopy  = [...this.props.tasks];
     tasksCopy.sort((a,b) => b.index - a.index);
@@ -10,14 +13,15 @@ class TodoList extends Component {
       <div className="tasks">
         <form>
         {tasksCopy.map(item =>
-            (<div className="task" key = {item.id} id = {item.index}>
-               <label className = "task-label" htmlFor = {item.index}>
+            (<div className="task" key = {item.id} >
+               <label className = {this.labelStyle(item)} htmlFor = {item.index}>
                 <input
                     className = "task-check"
                     type = 'checkbox'
                     id = {item.index}
                     checked = {item.done}
                     onChange = {this.props.onClick}
+
                      />
                 {item.content}
                 </label>

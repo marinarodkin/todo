@@ -67,12 +67,19 @@
 }
 
 .task-check {
-
+    display: none;
 }
 
 .task-label {
     margin-left: 50px;
     position: relative;
+}
+
+.task-label_through{
+    margin-left: 50px;
+    position: relative;
+    text-decoration: line-through;
+    color: grey;
 }
 
 .task-label::before {
@@ -85,13 +92,19 @@
     top: -2px;
     border: 1px solid #30d5c8;
     border-radius: 3px;
-}
 
-.task-check:checked + .task-label::before {
+}
+.task-label_through::before {
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    left: -40px;
+    top: -2px;
+    border: 1px solid #30d5c8;
+    border-radius: 3px;
     content: '✓';
-    border: 1px solid red;
+    font-size: 20px;
+    text-align: center;
 }
 
-.task-check:checked + .task-label {
-    text-decoration: line-through;
-}
