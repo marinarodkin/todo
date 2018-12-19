@@ -17,7 +17,7 @@ class TodoList extends Component {
             (<div className="task" key = {item.index}>
                <label className = "task-label" htmlFor = {index}>
                 <input className = "task-check" type = 'checkbox' id = {item.index}  checked = {item.done} onChange = {this.props.onClick}/>
-                {item.content}--{item.index}
+                {item.content}
                 </label>
                 <div>
                   <button className = "task-button task-button_edit" onClick = {this.props.editTask} id = {`e${item.index}`}>
