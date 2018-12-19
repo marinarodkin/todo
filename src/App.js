@@ -2,14 +2,15 @@ import React, {Component} from 'react';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import './App.css';
+import uuidv4 from 'uuid/v4';
 
 
 class App extends Component {
 
     state = {
-        tasks: [{content: 'Пример задания 1', done: false, index: 1},
-            {content: 'Пример задания 2', done: false, index: 2},
-            {content: 'Пример задания 3', done: true, index: 3}
+        tasks: [{content: 'Пример задания 1', done: false, index: 1, id: uuidv4()},
+            {content: 'Пример задания 2', done: false, index: 2, id: uuidv4()},
+            {content: 'Пример задания 3', done: true, index: 3, id: uuidv4()}
         ],
         text: ''
     };
@@ -22,6 +23,7 @@ class App extends Component {
 
 
     onClick = ({target: {id}}) => {
+
         const clickedTask = this.state.tasks[id];
         const updatedTask = {content: clickedTask.content, done: !clickedTask.done, index: clickedTask.index};
         const updatedTasks = this.state.tasks;
@@ -53,8 +55,7 @@ class App extends Component {
         const target = e.target;
         const id = target.id.slice(1) * 1;
         const tasks = this.state.tasks;
-        const clickedTasks = tasks.filter(item => item.index === id);
-        const clickedTask = clickedTasks[0]
+        const clickedTask = tasks.find(item => item.index === id);
         const updatedContent = clickedTask.content;
         const toupdateTasks = this.state.tasks;
         const updatedTasks = toupdateTasks.filter(item => item.index !== id);
