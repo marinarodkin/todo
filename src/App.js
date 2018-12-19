@@ -12,7 +12,8 @@ class App extends Component {
             {content: 'Пример задания 2', done: false, index: 2, id: uuidv4()},
             {content: 'Пример задания 3', done: true, index: 3, id: uuidv4()}
         ],
-        text: ''
+        text: '',
+        currentIndex: 3
     };
 
     onChange = ({target: {value}}) => {
@@ -21,46 +22,37 @@ class App extends Component {
         })
     }
 
-
     onClick = ({target: {id}}) => {
-
-        const clickedTask = this.state.tasks[id];
-        const updatedTask = {content: clickedTask.content, done: !clickedTask.done, index: clickedTask.index};
-        const updatedTasks = this.state.tasks;
-        const taskNumber = updatedTasks.indexOf(clickedTask);
-        updatedTasks.splice(taskNumber, 1, updatedTask);
-        this.setState({tasks: updatedTasks})
+        const tasksCopy = [...this.state.tasks];
+        const clickedTask = tasksCopy.find((item => item.index == id))
+        const updatedTask = {content: clickedTask.content, done: !clickedTask.done, index: clickedTask.index, id: clickedTask.id};
+        this.setState(prevState => ({tasks: [...prevState.tasks.filter(item => item.index != id),updatedTask ]}) )
     }
 
     onSubmitForm = (e) => {
         e.preventDefault();
-        const firstTask = this.state.tasks[0];
-        const index = firstTask ? firstTask.index + 1 : 1;
-        const newTask = {content: this.state.text, done: false, index: index};
+        const index = this.state.currentIndex;
+        const newTask = {content: this.state.text, done: false, index: index + 1, id: uuidv4()};
         this.setState(prevState => ({
             tasks: [...prevState.tasks, newTask],
-            text: ''
+            text: '',
+            currentIndex: prevState.currentIndex + 1
         }));
     }
 
     deleteTask = (e) => {
         e.preventDefault();
-        const target = e.target;
-        const id = target.id.slice(1) * 1;
-        this.setState(prevState => ({ tasks: prevState.tasks.filter(item => item.index !== id) }))
+        const id = e.target.parentNode.parentNode.id;
+        this.setState(prevState => ({ tasks: prevState.tasks.filter(item => item.index != id) }))
     }
 
     editTask = (e) => {
         e.preventDefault();
-        const target = e.target;
-        const id = target.id.slice(1) * 1;
-        const tasks = this.state.tasks;
-        const clickedTask = tasks.find(item => item.index === id);
+        const id = e.target.parentNode.parentNode.id;
+        const tasksCopy = [...this.state.tasks];
+        const clickedTask = tasksCopy.find(item => item.index == id);
         const updatedContent = clickedTask.content;
-        const toupdateTasks = this.state.tasks;
-        const updatedTasks = toupdateTasks.filter(item => item.index !== id);
-        this.setState({tasks: updatedTasks, text: updatedContent})
-
+        this.setState(prevState => ({ tasks: prevState.tasks.filter(item => item.index != id), text: updatedContent }))
     }
 
     render() {

@@ -4,14 +4,17 @@ import uuidv4 from 'uuid/v4';
 
 class TodoList extends Component {
   render() {
-    const tasks = this.props.tasks;
-    tasks.concat().sort((a,b) => a.index - b.index)
-    console.log( "tasks", tasks)
+    const tasksCopy  = [...this.props.tasks];
+    tasksCopy.sort((a,b) => {
+        if (b.index > a.index) return 1;
+        if (a.index > b.index) return -1;
+    })
+    console.log( "tasksCopy", tasksCopy)
     return (
       <div className="tasks">
         <form>
-        {tasks.map((item, index) =>
-            (<div className="task" key = {item.id}>
+        {tasksCopy.map((item, index) =>
+            (<div className="task" key = {item.id} id = {item.index}>
                <label className = "task-label" htmlFor = {index}>
                 <input className = "task-check" type = 'checkbox' id = {item.index}  checked = {item.done} onChange = {this.props.onClick}/>
                 {item.content}
