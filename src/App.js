@@ -3,18 +3,26 @@ import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import './App.css';
 import uuidv4 from 'uuid/v4';
+import ReactDOM from 'react-dom';
 
 
 class App extends Component {
 
     state = {
-        tasks: [{content: 'Пример задания 1', done: false, index: 1, id: uuidv4()},
-            {content: 'Пример задания 2', done: false, index: 2, id: uuidv4()},
-            {content: 'Пример задания 3', done: true, index: 3, id: uuidv4()}
+        tasks: [{content: 'Read 30 pages from the book', done: false, index: 1, id: uuidv4()},
+            {content: 'Write a letter', done: false, index: 2, id: uuidv4()},
+            {content: 'Prepare for tomorrow', done: true, index: 3, id: uuidv4()}
         ],
         text: '',
         currentIndex: 3
     };
+
+    constructor(props) {
+        super(props);
+        // создание ссылки для хранения DOM-элемента textInput
+        this.textInput = React.createRef();
+
+    }
 
     onChange = ({target: {value}}) => {
         this.setState({
@@ -52,6 +60,7 @@ class App extends Component {
         const tasksCopy = [...this.state.tasks];
         const clickedTask = tasksCopy.find(item => item.index == id);
         const updatedContent = clickedTask.content;
+        this.textInput.current.focus();
         this.setState(prevState => ({ tasks: prevState.tasks.filter(item => item.index != id), text: updatedContent }))
     }
 
@@ -61,7 +70,7 @@ class App extends Component {
                 <div className='header'>
                     <p className='header-title'>To do list</p>
                 </div>
-                <TodoForm onSubmitForm={this.onSubmitForm} onChange={this.onChange} text={this.state.text}/>
+                <TodoForm onSubmitForm={this.onSubmitForm} onChange={this.onChange} text={this.state.text} textInput = {this.textInput}/>
                 <TodoList tasks={this.state.tasks} deleteTask={this.deleteTask} editTask={this.editTask}
                           onClick={this.onClick}/>
             </div>

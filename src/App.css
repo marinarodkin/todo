@@ -92,6 +92,6 @@
     border: 1px solid red;
 }
 
-.task-check:checked + .task-label: {
+.task-check:checked + .task-label {
     text-decoration: line-through;
 }
