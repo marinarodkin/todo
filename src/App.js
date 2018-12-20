@@ -2,17 +2,27 @@ import React, {Component} from 'react';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import './App.css';
+import uuidv4 from 'uuid/v4';
+
 
 
 class App extends Component {
 
     state = {
-        tasks: [{content: 'Пример задания 1', done: false, index: 1},
-            {content: 'Пример задания 2', done: false, index: 2},
-            {content: 'Пример задания 3', done: true, index: 3}
+        tasks: [{content: 'Read 30 pages from the book', done: false, index: 1, id: uuidv4()},
+            {content: 'Write a letter', done: false, index: 2, id: uuidv4()},
+            {content: 'Prepare for tomorrow', done: true, index: 3, id: uuidv4()}
         ],
-        text: ''
+        text: '',
+        currentIndex: 3
     };
+
+    constructor(props) {
+        super(props);
+        // создание ссылки для хранения DOM-элемента textInput
+        this.textInput = React.createRef();
+
+    }
 
     onChange = ({target: {value}}) => {
         this.setState({
@@ -21,46 +31,37 @@ class App extends Component {
     }
 
     onClick = ({target: {id}}) => {
-        const clickedTask = this.state.tasks[id];
-        const updatedTask = {content: clickedTask.content, done: !clickedTask.done, index: clickedTask.index};
-        const updatedTasks = this.state.tasks;
-        const taskNumber = updatedTasks.indexOf(clickedTask);
-        updatedTasks.splice(taskNumber, 1, updatedTask);
-        this.setState({tasks: updatedTasks})
+        const tasksCopy = [...this.state.tasks];
+        const clickedTask = tasksCopy.find((item => item.index == id))
+        const updatedTask = {content: clickedTask.content, done: !clickedTask.done, index: clickedTask.index, id: clickedTask.id};
+        this.setState(prevState => ({tasks: [...prevState.tasks.filter(item => item.index != id),updatedTask ]}) )
     }
 
     onSubmitForm = (e) => {
         e.preventDefault();
-        const firstTask = this.state.tasks[0];
-        const index = firstTask ? firstTask.index + 1 : 1;
-        const newTask = {content: this.state.text, done: false, index: index};
+        const index = this.state.currentIndex;
+        const newTask = {content: this.state.text, done: false, index: index + 1, id: uuidv4()};
         this.setState(prevState => ({
             tasks: [...prevState.tasks, newTask],
-            text: ''
+            text: '',
+            currentIndex: prevState.currentIndex + 1
         }));
     }
 
     deleteTask = (e) => {
         e.preventDefault();
-        const target = e.target;
-        const id = target.id.slice(1) * 1;
-        const toupdateTasks = this.state.tasks;
-        const updatedTasks = toupdateTasks.filter(item => item.index !== id);
-        this.setState({tasks: updatedTasks})
-
+        const id = e.target.parentNode.previousSibling.firstChild.id;
+        this.setState(prevState => ({ tasks: prevState.tasks.filter(item => item.index != id) }))
     }
 
     editTask = (e) => {
         e.preventDefault();
-        const target = e.target;
-        const id = target.id.slice(1) * 1;
-        const tasks = this.state.tasks;
-        const clickedTasks = tasks.filter(item => item.index === id);
-        const clickedTask = clickedTasks[0]
+        const id = e.target.parentNode.previousSibling.firstChild.id;
+        const tasksCopy = [...this.state.tasks];
+        const clickedTask = tasksCopy.find(item => item.index == id);
         const updatedContent = clickedTask.content;
-        const toupdateTasks = this.state.tasks;
-        const updatedTasks = toupdateTasks.filter(item => item.index !== id);
-        this.setState({tasks: updatedTasks, text: updatedContent})
+        this.textInput.current.focus();
+        this.setState(prevState => ({ tasks: prevState.tasks.filter(item => item.index != id), text: updatedContent }))
     }
 
     render() {
@@ -69,7 +70,7 @@ class App extends Component {
                 <div className='header'>
                     <p className='header-title'>To do list</p>
                 </div>
-                <TodoForm onSubmitForm={this.onSubmitForm} onChange={this.onChange} text={this.state.text}/>
+                <TodoForm onSubmitForm={this.onSubmitForm} onChange={this.onChange} text={this.state.text} textInput = {this.textInput}/>
                 <TodoList tasks={this.state.tasks} deleteTask={this.deleteTask} editTask={this.editTask}
                           onClick={this.onClick}/>
             </div>
