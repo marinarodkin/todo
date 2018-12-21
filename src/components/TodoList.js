@@ -30,7 +30,7 @@ class TodoList extends Component {
         <form>
         {tasksCopy.map(item =>
         item.id === this.props.taskToEdit ?
-            (<div className="form edit-form">
+            (<div className="form edit-form" key = {item.id}>
                 <form onSubmit={this.onSubmitForm(item.id)} >
                     <input className = 'input-task'
                            type = "text"

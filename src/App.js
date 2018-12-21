@@ -9,9 +9,9 @@ import uuidv4 from 'uuid/v4';
 class App extends Component {
 
     state = {
-        tasks: [{content: 'Read 30 pages from the book', done: false, index: 1, id: uuidv4()},
-            {content: 'Write a letter', done: false, index: 2, id: uuidv4()},
-            {content: 'Prepare for tomorrow', done: true, index: 3, id: uuidv4()}
+        tasks: [{content: 'Read 30 pages from the book', done: false, id: uuidv4()},
+            {content: 'Write a letter', done: false, id: uuidv4()},
+            {content: 'Prepare for tomorrow', done: true, id: uuidv4()}
         ],
         text: '',
         taskToEdit: 0,
