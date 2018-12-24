@@ -3,23 +3,26 @@ import React, { Component } from 'react';
 import '../App.css';
 
 class TodoForm extends Component {
-    onSubmitForm = (id) => (event) => {
+    addNewTask  = (event) => {
         event.preventDefault(event);
-        this.props.onSubmitForm(id)
+        this.props.addNewTask();
     }
   render() {
 
     return (
       <div className="form">
-        <form onSubmit={this.onSubmitForm(0)} >
+        <form onSubmit={this.addNewTask} >
             <input className = 'input-task'
                    type = "text"
-                   value = {this.props.taskToEdit == 0 ? this.props.text : ''}
-                   onChange = {this.props.onChange}
+                   value = {this.props.taskToEdit === 0 ? this.props.text : ''}
+                   onChange = {this.props.onChangeInputValue}
                    placeholder = 'Добавьте новое задание'
                    autoFocus = {true}
                    ref = {this.props.textInput}
+                   onBlur={this.addNewTask}
                    />
+            <button type = "submit" className = "task-button task-button_done" onClick = {this.addNewTask}>
+            </button>
         </form>
 
       </div>

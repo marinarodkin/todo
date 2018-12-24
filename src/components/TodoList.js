@@ -18,30 +18,33 @@ class TodoList extends Component {
         this.props.onEditTask(id)
     }
 
-    onSubmitForm = (id) => (event) => {
+    addEditedTask= (id) => (event) => {
         event.preventDefault(event);
-        this.props.onSubmitForm(id)
+        this.props.addEditedTask(id)
     }
+
+
 
   render() {
     const tasksCopy  = [...this.props.tasks];
-      return (
+     return (
       <div className="tasks">
         <form>
         {tasksCopy.map(item =>
-        item.id === this.props.taskToEdit ?
+        item.id == this.props.taskToEdit ?
             (<div className="form edit-form" key = {item.id}>
-                <form onSubmit={this.onSubmitForm(item.id)} >
+                <form onSubmit = {this.addEditedTask(item.id)} >
                     <input className = 'input-task'
                            type = "text"
                            value = {this.props.text}
-                           onChange = {this.props.onChange}
+                           onChange = {this.props.onChangeInputValue}
                            placeholder = {item.content}
                            autoFocus = {true}
                            ref = {this.props.textInput}
-                           onBlur={this.onSubmitForm(item.id)}
+                           onBlur={this.addEditedTask(item.id)}
+
                     />
-                    <button type = "submit" className = "task-button task-button_done" onClick = {this.onSubmitForm(item.id)}>
+                    <button type = "submit" className = "task-button task-button_done" onClick = {this.addEditedTask(item.id)}>
                     </button>
                 </form>
             </div>) :
@@ -52,7 +55,7 @@ class TodoList extends Component {
                     type = 'checkbox'
                     id = {item.id}
                     checked = {item.done}
-                    onChange = {this.props.onClick}
+                    onChange = {this.props.setToDoDone}
                      />
                 {item.content}
                 </label>
@@ -71,3 +74,5 @@ class TodoList extends Component {
 }
 
 export default TodoList;
+
+
