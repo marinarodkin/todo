@@ -14,7 +14,7 @@ class TodoForm extends Component {
         <form onSubmit={this.addNewTask} >
             <input className = 'input-task'
                    type = "text"
-                   value = {this.props.taskToEdit === 0 ? this.props.text : ''}
+                   value = {this.props.tasks.findIndex(item => item.isEdited === true) === -1 ? this.props.text : ''}
                    onChange = {this.props.onChangeInputValue}
                    placeholder = 'Добавьте новое задание'
                    autoFocus = {true}

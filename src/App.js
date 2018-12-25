@@ -9,12 +9,11 @@ import uuidv4 from 'uuid/v4';
 class App extends Component {
 
     state = {
-        tasks: [{content: 'Read 30 pages from the book', done: false, id: uuidv4()},
-            {content: 'Write a letter', done: false, id: uuidv4()},
-            {content: 'Prepare for tomorrow', done: true, id: uuidv4()}
+        tasks: [{content: 'Read 30 pages from the book', done: false, id: uuidv4(), isEdited: false},
+            {content: 'Write a letter', done: false, id: uuidv4(), isEdited: false},
+            {content: 'Prepare for tomorrow', done: true, id: uuidv4(), isEdited: false}
         ],
         text: '',
-        taskToEdit: 0,
     };
 
     onChangeInputValue = ({target: {value}}) => {
@@ -43,25 +42,19 @@ class App extends Component {
         this.setState(prevState => ({ tasks: prevState.tasks.filter(item => item.id !== id) }))
     }
 
-    onEditTask = (id) => {
+    onEditTask = (id, content) => {
         const tasksCopy = [...this.state.tasks];
-        const clickedTask = tasksCopy.find(item => item.id === id);
-        const updatedContent = clickedTask.content;
-        console.log(updatedContent);
-        this.setState({  text: updatedContent, taskToEdit: id })
-        //console.log(this.state);
-    }
-
-    addEditedTask = (id) => {
-        if (this.state.text === "") return;
-        const tasksCopy = [...this.state.tasks];
+        let text = content;
         const clickedTaskIndex = tasksCopy.findIndex((item => item.id === id))
-        tasksCopy[clickedTaskIndex].content = this.state.text;
-        this.setState(prevState => ({...prevState,
-            tasks: tasksCopy,
-            text: '',
-            taskToEdit: 0,
-        }));
+        const isAlreadyEdited = tasksCopy[clickedTaskIndex].isEdited; // можно обойтись без этой переменной, но код менее читаем.
+        if (isAlreadyEdited === true) {
+            tasksCopy[clickedTaskIndex].content = this.state.text;
+            text = "";
+        }
+        tasksCopy[clickedTaskIndex].isEdited = !tasksCopy[clickedTaskIndex].isEdited;
+            this.setState(prevState => ({...prevState,
+             text: text,
+             tasks: tasksCopy }));
     }
 
 
@@ -71,7 +64,7 @@ class App extends Component {
                 <div className='header'>
                     <p className='header-title'>To do list</p>
                 </div>
-                <TodoForm addNewTask={this.addNewTask} onChangeInputValue={this.onChangeInputValue} text={this.state.text} textInput = {this.textInput} onEditTask={this.onEditTask} taskToEdit = {this.state.taskToEdit}/>
+                <TodoForm addNewTask={this.addNewTask} tasks = {this.state.tasks} onChangeInputValue={this.onChangeInputValue} text={this.state.text} textInput = {this.textInput} onEditTask={this.onEditTask} taskToEdit = {this.state.taskToEdit}/>
                 <TodoList tasks={this.state.tasks} onDeleteTask={this.onDeleteTask} onEditTask={this.onEditTask}
                           setToDoDone={this.setToDoDone} taskToEdit = {this.state.taskToEdit} addEditedTask={this.addEditedTask} onChangeInputValue={this.onChangeInputValue} text={this.state.text}/>
             </div>

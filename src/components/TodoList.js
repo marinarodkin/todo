@@ -13,14 +13,14 @@ class TodoList extends Component {
         this.props.onDeleteTask(id)
     }
 
-    onEdit = (id) => (event) => {
+    onEdit = (id, content) => (event) => {
         event.preventDefault(event);
-        this.props.onEditTask(id)
+        this.props.onEditTask(id, content)
     }
 
-    addEditedTask= (id) => (event) => {
+    addEditedTask= (id, content) => (event) => {
         event.preventDefault(event);
-        this.props.addEditedTask(id)
+        this.props.addEditedTask(id, content)
     }
 
 
@@ -31,9 +31,9 @@ class TodoList extends Component {
       <div className="tasks">
         <form>
         {tasksCopy.map(item =>
-        item.id == this.props.taskToEdit ?
+        item.isEdited  ?
             (<div className="form edit-form" key = {item.id}>
-                <form onSubmit = {this.addEditedTask(item.id)} >
+                <form onSubmit = {this.onEdit(item.id, this.props.text)} >
                     <input className = 'input-task'
                            type = "text"
                            value = {this.props.text}
@@ -41,10 +41,10 @@ class TodoList extends Component {
                            placeholder = {item.content}
                            autoFocus = {true}
                            ref = {this.props.textInput}
-                           onBlur={this.addEditedTask(item.id)}
+                           onBlur={this.onEdit(item.id, this.props.text)}
 
                     />
-                    <button type = "submit" className = "task-button task-button_done" onClick = {this.addEditedTask(item.id)}>
+                    <button type = "submit" className = "task-button task-button_done" onClick = {this.onEdit(item.id, this.props.text)}>
                     </button>
                 </form>
             </div>) :
@@ -60,7 +60,7 @@ class TodoList extends Component {
                 {item.content}
                 </label>
                 <div>
-                  <button className = "task-button task-button_edit" onClick = {this.onEdit(item.id)}>
+                  <button className = "task-button task-button_edit" onClick = {this.onEdit(item.id, item.content)}>
                   </button>
                   <button className = "task-button task-button_delete" onClick = {this.onDelete(item.id)}>
                   </button>
