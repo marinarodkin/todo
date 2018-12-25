@@ -3,6 +3,7 @@ import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import './App.css';
 import uuidv4 from 'uuid/v4';
+import { connect } from 'react-redux'
 
 
 
@@ -78,4 +79,25 @@ class App extends Component {
     }
 }
 
-export default App;
+// приклеиваем данные из store
+const mapStateToProps = store => {
+    return {
+        user: store.user,
+        app: store.app,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+
+    }
+}
+
+
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App)
+
+
